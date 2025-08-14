@@ -1,3 +1,8 @@
+export const baseUrl = import.meta.env.PROD
+  ? import.meta.env.VITE_LIVE_URL
+  : import.meta.env.VITE_LOCAL_URL;
+
+
 export const fetcher = (url) => fetch(url).then((res) => res.json());
 
 export const createEmployee = async (url, { arg }) => {

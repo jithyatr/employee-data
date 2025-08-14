@@ -1,5 +1,5 @@
 import useSWRMutation from 'swr/mutation';
-import { updateEmployeeRequest } from '../../utils/api';
+import { baseUrl, updateEmployeeRequest } from '../../utils/api';
 import { useToast } from '@chakra-ui/react';
 import { mutate } from 'swr';
 import { toastContent } from '../../utils/formValidators';
@@ -7,7 +7,7 @@ import { toastContent } from '../../utils/formValidators';
 const useEditEmployee = ({ onClose, employee }) => {
     const toast = useToast();
     const { trigger, isMutating } = useSWRMutation(
-        `http://localhost:3000/api/employees/${employee?._id}`,
+        `${baseUrl}/api/employees/${employee?._id}`,
         updateEmployeeRequest,
     );
 
@@ -15,7 +15,7 @@ const useEditEmployee = ({ onClose, employee }) => {
         try {
             await trigger(values?.values);
             toast(toastContent("Employee updated successfully", "Employee updated", "success"))
-            mutate('http://localhost:3000/api/employees')
+            mutate(`${baseUrl}/api/employees`)
             onClose();
         } catch (err) {
             toast(toastContent(err.message || "Something went wrong.", "Error updating employee", "error"))
